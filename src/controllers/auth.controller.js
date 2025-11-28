@@ -1,22 +1,7 @@
 const User = require('../models/User');
 const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
+const { generateAccessToken, generateRefreshToken, verifyRefreshToken } = require('../utils/jwt');
 
-const generateAccessToken = (user) => {
-    return jwt.sign(
-        { id: user._id, username: user.username, roles: user.roles },
-        process.env.JWT_ACCESS_SECRET || 'access_secret',
-        { expiresIn: '15m' }
-    );
-};
-
-const generateRefreshToken = (user) => {
-    return jwt.sign(
-        { id: user._id },
-        process.env.JWT_REFRESH_SECRET || 'refresh_secret',
-        { expiresIn: '7d' }
-    );
-};
 
 exports.signup = async (req, res) => {
     try {
@@ -134,7 +119,7 @@ exports.refresh = async (req, res) => {
     }
 
     try {
-        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET || 'refresh_secret');
+        const decoded = verifyRefreshToken(refreshToken);
         const user = await User.findById(decoded.id);
 
         if (!user) {
