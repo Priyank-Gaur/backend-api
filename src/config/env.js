@@ -6,5 +6,6 @@ module.exports = {
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET || 'access_secret',
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET || 'refresh_secret',
     REDIS_HOST: process.env.REDIS_HOST || 'localhost',
-    REDIS_PORT: process.env.REDIS_PORT || 6379
+    REDIS_PORT: process.env.REDIS_PORT || 6379,
+    JUDGE0_URL: process.env.JUDGE0_URL || 'http://localhost:2358'
 };
